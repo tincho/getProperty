@@ -1,3 +1,13 @@
+/**
+real-world usage of getProperty :
+
+var $i = document.querySelector("#someInput");
+$i.addEventListener("change", compose(getProperty("target.value"), doSomethingWithValue))
+function doSomethingWithValue(value) {
+    alert(value);
+}
+*/
+
 var assert = require("assert");
 var getProperty = require("./getProperty");
 

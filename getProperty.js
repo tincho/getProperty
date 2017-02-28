@@ -4,26 +4,29 @@ if (typeof window === 'undefined') {
 
 function getProperty(key) {
     var
+        key     = arguments[0],
         args    = [].slice.call(arguments),
         getters = mkGetters(args);
 
     if (getters.length) {
         return compose.apply(null, getters);
     }
-
-    var key = args[0];
     return function(obj) {
         return obj[key];
     }
 
     function mkGetters(args) {
-        if (args.length > 1) {
-            return args.map(_ary(getProperty));
+        var keys  = args;
+        if (args.length === 1) {
+            keys = args[0];
+            if (!Array.prototype.isPrototypeOf(keys)) {
+                keys = args[0].split(".");
+                if (keys.length <= 1) {
+                    return [];
+                }
+            }
         }
-        if (Array.prototype.isPrototypeOf(args[0])) {
-            return args[0].map(_ary(getProperty));
-        }
-        return [];
+        return keys.map(_ary(getProperty));
     }
 }
 
