@@ -38,6 +38,10 @@ try {
     assert.equal(deepDeeperArgs(tst), "sooo deep.", "Fail!!");
     console.log("passed deepDeeperArgs");
 
+    var deepArray = getProperty(["event", "target"]);
+    assert.equal(deepArray(tst), 1616, "Fail!!");
+    console.log("passed deepArray");
+
     var deepQuery = getProperty("event.target");
     assert.equal(deepQuery(tst), 1616, "Fail!!");
     console.log("passed deepQuery");
