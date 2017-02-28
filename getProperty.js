@@ -2,18 +2,12 @@ if (typeof window === 'undefined') {
     module.exports = getProperty;
 }
 
-function getProperty(key) {
+function getProperty() {
     var
-        key     = arguments[0],
         args    = [].slice.call(arguments),
         getters = mkGetters(args);
 
-    if (getters.length) {
-        return compose.apply(null, getters);
-    }
-    return function(obj) {
-        return obj[key];
-    }
+    return compose.apply(null, getters);
 
     function mkGetters(args) {
         var keys  = args;
@@ -21,12 +15,13 @@ function getProperty(key) {
             keys = args[0];
             if (!Array.prototype.isPrototypeOf(keys)) {
                 keys = args[0].split(".");
-                if (keys.length <= 1) {
-                    return [];
-                }
             }
         }
-        return keys.map(_ary(getProperty));
+        return keys.map(_ary(function(key) {
+            return function(obj) {
+                return obj[key];
+            }
+        }));
     }
 }
 
