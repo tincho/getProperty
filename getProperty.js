@@ -10,7 +10,8 @@ function getProperty(key) {
     }
 
     var keys = [].slice.call(arguments);
-    return compose(getProperty(keys[0]), getProperty(keys[1]));
+    var getters = keys.map(_ary(getProperty));
+    return compose.apply(null, getters);
 }
 
 function compose() {
@@ -20,4 +21,12 @@ function compose() {
             return f(p);
         }, x);
     }
+}
+
+function _ary(fn, arity) {
+    arity = arity || 1;
+    return function() {
+        var args = Array.prototype.slice.call(arguments, 0, arity);
+        return fn.apply(null, args);
+    };
 }

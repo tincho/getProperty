@@ -9,7 +9,10 @@ var tst = {
     p: "q",
     one: {
         two: {
-            three: "so deep."
+            three: "so deep.",
+            three2: {
+                four: "sooo deep."
+            }
         }
     }
 };
@@ -30,6 +33,10 @@ try {
     var deeperArgs = getProperty("one", "two", "three");
     assert.equal(deeperArgs(tst), "so deep.", "Fail!!");
     console.log("passed deeperArgs");
+
+    var deepDeeperArgs = getProperty("one", "two", "three2", "four");
+    assert.equal(deepDeeperArgs(tst), "sooo deep.", "Fail!!");
+    console.log("passed deepDeeperArgs");
 
     var deepQuery = getProperty("event.target");
     assert.equal(deepQuery(tst), 1616, "Fail!!");
